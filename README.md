@@ -1,2 +1,2 @@
-# tidbyt-infoshow
-Tidbyt app - Display short information retrieved from a web URL
+# tidbyt-showthis
+This app displays a logo and short information received from a URL as JSON object.
