@@ -20,7 +20,7 @@ The JSON object has to contain the following fields:
 
 ### Icon
 
-For now, passing an icon in your JSON object is **mandatory**. If you don't have a 13x13 icon at hand, you can use the showthis_icon_example.png icon in this repo. To convert images to base64 string, you may use a website such as www.base64encode.org.   
+For now, passing an icon in your JSON object is **mandatory**. If you don't have a 13x13 icon at hand, you can use the [doc/showthis_icon_example.png](doc/showthis_icon_example.png) icon in this repo. To convert images to base64 string, you may use a website such as www.base64encode.org.   
 
 ### Example JSON object
 
@@ -38,7 +38,7 @@ For now, passing an icon in your JSON object is **mandatory**. If you don't have
 
 ## Visualisation
 
-![Example of ShowThis app](showthis_display_example.gif)
+![Example of ShowThis app](doc/showthis_display_example.gif)
 
 ## Todo
 
