@@ -10,7 +10,7 @@ The app retrieves a JSON object with a GET request from the configured URL. The 
 |text_right     |Text on the upper right         
 |text_large     |Large text in the middle
 |text_small     |Small text beneath the large text
-|icon           |An icon shown next to the large text, GIF or PNG format, encoded in base64
+|icon           |An icon shown next to the large text. Format GIF or PNG, ideally 13px x 13px, encoded in base64
 
 ### Example JSON object
 
@@ -26,3 +26,4 @@ The app retrieves a JSON object with a GET request from the configured URL. The 
 
 ## Visualisation
 
+![Example of ShowThis app](showthis_example.gif)
