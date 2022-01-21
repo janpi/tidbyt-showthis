@@ -1,4 +1,4 @@
-# ShowThis - Show any information you want on your Tidbyt
+# ShowThis - Display any information you want on your Tidbyt
 This display app displays information it retrieves from a custom URL which can be defined in the app settings. This means you can implement your own web services or use low-code platforms such as [Integromat](https://www.integromat.com) or [Zapier](https://www.zapier.com) to display any information you like - without having to implement a custome Tidbyt app. 
 
 The cool thing is that Tidbyt supports adding multiple instances of an app to a single Tidbyt. This means that you can add this app multiple times, query multiple different URLs and thus display multiple different custom info screens on your Tidbyt.     
