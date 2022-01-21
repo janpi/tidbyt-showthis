@@ -2,7 +2,7 @@
 This display app displays information it retrieves from a custom URL which can be defined in the app settings.
 
 ## Retrieval of Information
-The app retrieves a JSON object with a GET request from the configured URL. Content is refreshed (URL is queried) every 10 minutes.
+The app retrieves a JSON object with a GET request from the configured URL. Content is refreshed (URL is re-queried) *every 10 minutes*.
 
 The JSON object has to contain the following fields:
 
@@ -15,7 +15,9 @@ The JSON object has to contain the following fields:
 |icon           |An icon shown next to the large text. Format GIF or PNG, ideally 13px x 13px, encoded in base64
 
 > Note: text_left and text_right can have a combined length of 16 chars, text_large can be about 8 chars, text_small about 12 chars.
+
 ### Icon
+
 For now, passing an icon in your JSON object is **mandatory**. If you don't have a 13x13 icon at hand, you can use the showthis_icon_example.png icon in this repo. To convert images to base64 string, you may use a website such as www.base64encode.org.   
 
 ### Example JSON object
@@ -34,7 +36,7 @@ You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug
 
 ## Visualisation
 
-![Example of ShowThis app](showthis-example.gif)
+![Example of ShowThis app](showthis_display_example.gif)
 
 ## Todo
 
