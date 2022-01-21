@@ -1,4 +1,4 @@
-# Tidbyt App ShowThis
+# ShowThis - App for Tidbyt
 This display app displays information it retrieves from a custom URL which can be defined in the app settings.
 
 ## Retrieval of Information
@@ -12,7 +12,11 @@ The app retrieves a JSON object with a GET request from the configured URL. The 
 |text_small     |Small text beneath the large text
 |icon           |An icon shown next to the large text. Format GIF or PNG, ideally 13px x 13px, encoded in base64
 
+> Note: text_left and text_right can have a combined length of 16 chars, text_large can be about 8 chars, text_small about 12 chars.
+
 ### Example JSON object
+
+You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug7budr8stcb5tvn9bjtrrb5m
 
 ```starlark
 {
@@ -27,3 +31,4 @@ The app retrieves a JSON object with a GET request from the configured URL. The 
 ## Visualisation
 
 ![Example of ShowThis app](showthis-example.gif)
+
