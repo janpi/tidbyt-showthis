@@ -16,7 +16,7 @@ The app retrieves a JSON object with a GET request from the configured URL. The 
 
 ### Example JSON object
 
-You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug7budr8stcb5tvn9bjtrrb5m
+You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug7budr8stcb5tvn9bjtrrb5m 
 
 ```starlark
 {
