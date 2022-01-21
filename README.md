@@ -1,14 +1,28 @@
-# tidbyt-showthis
-This display app displays information which it retrieves from a custom URL you can define in the app settings.
+# Tidbyt App ShowThis
+This display app displays information it retrieves from a custom URL which can be defined in the app settings.
 
+## Retrieval of Information
+The app retrieves a JSON object with a GET request from the configured URL. The JSON object has to contain the following fields:
 
-a logo and short information received from a URL as JSON object.
+|Field Name     |Description                    
+|---------------|---------------------------------
+|text_left      |Text on the upper left         
+|text_right     |Text on the upper right         
+|text_large     |Large text in the middle
+|text_small     |Small text beneath the large text
+|icon           |An icon shown next to the large text, GIF or PNG format, encoded in base64
 
+### Example JSON object
 
+```starlark
 {
-    "icon":"H4m267pR1iovi3bTdN0/znS1HRaUxOwAAAAASUVORK5CYII=",
     "text_left":"ShowThis",
-    "text_large":"23:46:15",
     "text_right":"Test",
+    "text_large":"23:46:15",
     "text_small":"o'clock"
+    "icon":"H4m267pR1iovi3bTdN0/znS1HRaUxOwAAAAASUVORK5CYII=",
 }
+```
+
+## Visualisation
+
