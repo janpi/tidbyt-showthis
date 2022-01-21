@@ -2,7 +2,9 @@
 This display app displays information it retrieves from a custom URL which can be defined in the app settings.
 
 ## Retrieval of Information
-The app retrieves a JSON object with a GET request from the configured URL. The JSON object has to contain the following fields:
+The app retrieves a JSON object with a GET request from the configured URL. Content is refreshed (URL is queried) every 10 minutes.
+
+The JSON object has to contain the following fields:
 
 |Field Name     |Description                    
 |---------------|---------------------------------
