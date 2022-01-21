@@ -24,7 +24,7 @@ You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug
     "text_right":"Test",
     "text_large":"23:46:15",
     "text_small":"o'clock"
-    "icon":"H4m267pR1iovi3bTdN0/znS1HRaUxOwAAAAASUVORK5CYII=",
+    "icon":"H4m267pR1iovi3bTdN0 .... znS1HRaUxOwAAAAASUVORK5CYII=",
 }
 ```
 
