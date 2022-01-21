@@ -8,7 +8,7 @@ The app retrieves a JSON object with a GET request from the configured URL. Cont
 
 The JSON object has to contain the following fields:
 
-|Field Name     |Description                    
+|Field Name     |Description                   
 |---------------|---------------------------------
 |text_left      |Text on the upper left         
 |text_right     |Text on the upper right         
