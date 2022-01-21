@@ -1,18 +1,19 @@
 load("render.star", "render")
 load("http.star", "http")
 load("encoding/base64.star", "base64")
+load("encoding/json.star", "json")
 load("cache.star", "cache")
 load("schema.star", "schema")
 
 def main(config):
 
-	cache_ttl_sec = 300
+	cache_ttl_sec = 60 * 10 # 10 minutes
 
-	text_large = "Large text"
-	text_small = "Small text"
-	text_left = "Left text"
-	text_right = "Right text"
-	icon = "iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAKklEQVQokWNgGDrg2TOb/8+e2fwnJEa5JvoDmJOIdhY2P5GkgWiNgwsAAIg6LWr4ZNyAAAAAAElFTkSuQmCC"
+	text_large = ""
+	text_small = ""
+	text_left = ""
+	text_right = ""
+	icon = "iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAF4mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICB4bWxuczpwaG90b3Nob3A9Imh0dHA6Ly9ucy5hZG9iZS5jb20vcGhvdG9zaG9wLzEuMC8iCiAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgZXhpZjpDb2xvclNwYWNlPSIxIgogICBleGlmOlBpeGVsWERpbWVuc2lvbj0iMTMiCiAgIGV4aWY6UGl4ZWxZRGltZW5zaW9uPSIxMyIKICAgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIKICAgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIgogICB0aWZmOkltYWdlTGVuZ3RoPSIxMyIKICAgdGlmZjpJbWFnZVdpZHRoPSIxMyIKICAgdGlmZjpSZXNvbHV0aW9uVW5pdD0iMiIKICAgdGlmZjpYUmVzb2x1dGlvbj0iMzAwLzEiCiAgIHRpZmY6WVJlc29sdXRpb249IjMwMC8xIgogICB4bXA6TWV0YWRhdGFEYXRlPSIyMDIyLTAxLTIxVDE1OjAzOjIyKzAxOjAwIgogICB4bXA6TW9kaWZ5RGF0ZT0iMjAyMi0wMS0yMVQxNTowMzoyMiswMTowMCI+CiAgIDx4bXBNTTpIaXN0b3J5PgogICAgPHJkZjpTZXE+CiAgICAgPHJkZjpsaQogICAgICB4bXBNTTphY3Rpb249InByb2R1Y2VkIgogICAgICB4bXBNTTpzb2Z0d2FyZUFnZW50PSJBZmZpbml0eSBEZXNpZ25lciAxLjEwLjQiCiAgICAgIHhtcE1NOndoZW49IjIwMjItMDEtMjFUMTQ6MTk6MjUrMDE6MDAiLz4KICAgICA8cmRmOmxpCiAgICAgIHN0RXZ0OmFjdGlvbj0icHJvZHVjZWQiCiAgICAgIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFmZmluaXR5IFBob3RvIDEuMTAuNCIKICAgICAgc3RFdnQ6d2hlbj0iMjAyMi0wMS0yMVQxNTowMzoyMiswMTowMCIvPgogICAgPC9yZGY6U2VxPgogICA8L3htcE1NOkhpc3Rvcnk+CiAgIDxkYzp0aXRsZT4KICAgIDxyZGY6QWx0PgogICAgIDxyZGY6bGkgeG1sOmxhbmc9IngtZGVmYXVsdCI+TWFydmluIDEzcHg8L3JkZjpsaT4KICAgIDwvcmRmOkFsdD4KICAgPC9kYzp0aXRsZT4KICA8L3JkZjpEZXNjcmlwdGlvbj4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9InIiPz77fXVqAAABgmlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kc8rw2Ecx1+2aWKLQjk4LOE0YmpxcdhiFA7blOGyfe2H2o9v3++WlqtyXVHi4teBv4CrclaKSMlRzsQFfX2+ttqSfZ6ez/N63s/n8+l5Pg9Ywmklo9uGIJPNa8GAz7UQWXTZn2mgEydebFFFV2dDk2Hq2sedRIvdDJi16sf9ay0rcV2BhibhcUXV8sJTwjNredXkbeEOJRVdET4VdmtyQeFbU4+V+cXkZJm/TNbCQT9Y2oRdyRqO1bCS0jLC8nJ6M+mCUrmP+RJHPDsfkrVHZjc6QQL4cDHNBH7pyTBj4r0M4GFQdtTJH/rNnyMnuYp4lSIaqyRJkcctakGqx2VNiB6XkaZo9v9vX/XEiKdc3eGDxifDeOsD+xZ8lwzj89Awvo/A+ggX2Wp+7gBG30UvVbXefWjdgLPLqhbbgfNN6HpQo1r0V7LKtCQS8HoCzgi0X0PzUrlnlXOO7yG8Ll91Bbt70C/xrcs/YM5n49z0/xEAAAAJcEhZcwAALiMAAC4jAXilP3YAAADkSURBVCiRfZDRTQNBDESf9/JPBXxQCJFyaSL0gYjSQq4QUgQCcVcIH1RAAfbwkXizl0OMtFrv2GPP2riglKKMI8JokLnkVwBmprfnx1q0HUZJqsLMJW9mpveXq6A/Tkh1KGZnbdb0xwnLSY01IgKA8bBBGNthrE1aB5e3lHfGEa6P/Vpt48IfSEvnJXSL/OqWcHfco8bjYbNsmtbcnVLKbEric78mBP0wIalWKDcWEXTd1VI2a2wvRf/hVlSFZoa7V7LrOpJvvjOD3F1APc17sYiK1/sHAexOd5x2PwA8fX/N6n4BsXuHvE8o460AAAAASUVORK5CYII="
 
 	if cache.get("text_large") != None:
 		print("Hit! Displaying cached data.")
@@ -28,16 +29,16 @@ def main(config):
 
 		url = config.get("url")
 
-		# url = "test"
+		# url = "test" # query a test url
 
 		if url == "" or url == None:
 			print("Error: No URL configured")
 
-			text_large = "URL"
-			text_small = "missing"
-			text_left = "ShowThis App"
-			text_right = ""
-			icon = icon
+			text_left = "ShowThis"
+			text_right = "Err"
+			text_large = "Configure"
+			text_small = "your URL"
+			icon = icon # keep that icon
 	
 		else:
 			
@@ -47,26 +48,35 @@ def main(config):
 			rep = http.get(url)
 		
 			if rep.status_code == 200:
-				text_large = rep.json()["text_large"]
-				text_small = rep.json()["text_small"]
-				text_left = rep.json()["text_left"]
-				text_right = rep.json()["text_right"]
-				icon = rep.json()["icon"]
+				json_obj = json.decode(rep.body())
 
-				cache.set("text_large", text_large, ttl_seconds=cache_ttl_sec)
-				cache.set("text_small", text_small, ttl_seconds=cache_ttl_sec)
-				cache.set("text_left", text_left, ttl_seconds=cache_ttl_sec)
-				cache.set("text_right", text_right, ttl_seconds=cache_ttl_sec)
-				cache.set("icon", icon, ttl_seconds=cache_ttl_sec)
+				if json_obj != None:
+					text_large = json_obj["text_large"]
+					text_small = json_obj["text_small"]
+					text_left = json_obj["text_left"]
+					text_right = json_obj["text_right"]
+					icon = json_obj["icon"]
+
+					cache.set("text_large", text_large, ttl_seconds=cache_ttl_sec)
+					cache.set("text_small", text_small, ttl_seconds=cache_ttl_sec)
+					cache.set("text_left", text_left, ttl_seconds=cache_ttl_sec)
+					cache.set("text_right", text_right, ttl_seconds=cache_ttl_sec)
+					cache.set("icon", icon, ttl_seconds=cache_ttl_sec)
+
+				else:
+					text_large = "Error"
+					text_small = "Invalid obj"
+					text_left = "ShowThis"
+					text_right = "Err"
 
 			else:
 				fail("Service request failed with status %d", rep.status_code)
 
-				text_large = rep.json()["text_large"]
-				text_small = rep.json()["text_small"]
-				text_left = rep.json()["text_left"]
-				text_right = rep.json()["text_right"]
-				icon = rep.json()["icon"]
+				text_large = "Error"
+				text_small = "code " + rep.status_code
+				text_left = "ShowThis"
+				text_right = "Err"
+				icon = icon # keep that icon
 
 
 	return render.Root(
@@ -131,10 +141,9 @@ def get_schema():
 			schema.Text(
 				id = "url",
 				name = "URL",
-				desc = "URL to query, returning a JSON object",
+				desc = "URL returning a JSON object",
 				icon = "link",
 			)
 		]
 	)
-
  
