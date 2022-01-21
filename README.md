@@ -1,5 +1,5 @@
 # ShowThis - App for Tidbyt
-This display app displays information it retrieves from a custom URL which can be defined in the app settings.
+This display app displays information it retrieves from a custom URL which can be defined in the app settings. This means you can implement your own web services or use low-code platforms such as [Integromat](https://www.integromat.com) or [Zapier](https://www.zapier.com) to display any information you like - without having to implement a custome Tidbyt app. 
 
 ## Retrieval of Information
 The app retrieves a JSON object with a GET request from the configured URL. Content is refreshed (URL is re-queried) *every 10 minutes*.
