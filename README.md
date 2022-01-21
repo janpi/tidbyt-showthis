@@ -26,4 +26,4 @@ The app retrieves a JSON object with a GET request from the configured URL. The 
 
 ## Visualisation
 
-![Example of ShowThis app](showthis_example.gif)
+![Example of ShowThis app](showthis-example.gif)
