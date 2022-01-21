@@ -4,7 +4,7 @@ This display app displays information it retrieves from a custom URL which can b
 The cool thing is that Tidbyt supports adding multiple instances of an app to a single Tidbyt. This means that you can add this app multiple times, query multiple different URLs and thus display multiple different custom info screens on your Tidbyt.     
 
 ## Retrieval of Information
-The app retrieves a JSON object with a GET request from the configured URL. Content is refreshed (URL is re-queried) *every 10 minutes*.
+The app retrieves a JSON object with a GET request from the configured URL. Content is refreshed (URL is re-queried) **every 10 minutes**.
 
 The JSON object has to contain the following fields:
 
