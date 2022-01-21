@@ -22,8 +22,6 @@ For now, passing an icon in your JSON object is **mandatory**. If you don't have
 
 ### Example JSON object
 
-You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug7budr8stcb5tvn9bjtrrb5m 
-
 ```starlark
 {
     "text_left":"ShowThis",
@@ -33,6 +31,9 @@ You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug
     "icon":"H4m267pR1iovi3bTdN0 .... znS1HRaUxOwAAAAASUVORK5CYII="
 }
 ```
+
+> You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug7budr8stcb5tvn9bjtrrb5m. Configure it as URL in the app settings or just open it with your browser to see the JSON object.
+
 
 ## Visualisation
 
