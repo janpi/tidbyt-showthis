@@ -38,7 +38,7 @@ For now, passing an icon in your JSON object is **mandatory**. If you don't have
 
 ## Visualisation
 
-![Example of ShowThis app](dosc/showthis_display_example.gif)
+![Example of ShowThis app](docs/showthis_display_example.gif)
 
 ## Todo
 
