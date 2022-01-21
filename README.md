@@ -16,7 +16,7 @@ The JSON object has to contain the following fields:
 |text_small     |Small text beneath the large text
 |icon           |An icon shown next to the large text. Format GIF or PNG, ideally 13px x 13px, encoded in base64
 
-> Note: text_left and text_right can have a combined length of 16 chars, text_large can be about 8 chars, text_small about 12 chars.
+> text_left and text_right can have a combined length of 16 chars, text_large can be about 8 chars, text_small about 12 chars.
 
 ### Icon
 
