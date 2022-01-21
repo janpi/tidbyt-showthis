@@ -34,3 +34,10 @@ You can use this URL for testing purposes: https://hook.integromat.com/ujwv9g2ug
 
 ![Example of ShowThis app](showthis-example.gif)
 
+## Todo
+
+What's on the roadmap for this app?
+- Make refresh interval (currently 10 minutes) configurable in app settings
+- Accept not only a JSON object, but also a comma-separated string
+
+
