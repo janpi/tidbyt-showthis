@@ -1,3 +1,10 @@
+"""
+Applet: ShowThis
+Summary: Displays information it retrieves from a custom URL
+Description: This Tidbyt app displays information it retrieves from a custom URL which can be defined in the app settings. This means you can fetch and display data from your own web services or low-code platforms such as Integromat or Zapier, without having to implement a custom Tidbyt app. For more information on how to use this app, visit https://github.com/janpi/tidbyt-showthis
+Author: Jan Pichler
+"""
+
 load("render.star", "render")
 load("http.star", "http")
 load("encoding/base64.star", "base64")
