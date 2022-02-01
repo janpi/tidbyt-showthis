@@ -1,7 +1,7 @@
 """
 Applet: ShowThis
-Summary: Displays information it retrieves from a custom URL
-Description: This Tidbyt app displays information it retrieves from a custom URL which can be defined in the app settings. This means you can fetch and display data from your own web services or low-code platforms such as Integromat or Zapier, without having to implement a custom Tidbyt app. For more information on how to use this app, visit https://github.com/janpi/tidbyt-showthis
+Summary: Shows info from a URL
+Description: This app displays information it retrieves from a custom URL that can be defined in the app settings. It can fetch and display data from your web services or low-code platforms such as Integromat or Zapier, without having to implement a custom Tidbyt app. For more information on how to use this app, visit https://github.com/janpi/tidbyt-showthis.
 Author: Jan Pichler
 """
 
@@ -17,70 +17,56 @@ DEFAULT_ICON = "iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAF4mlUWHRYTUw6Y29t
 
 def main(config):
 
+	url = config.get("url")
+	# url = "test" # query a test url
 
-	if cache.get("text_large") != None:
-		print("Hit! Displaying cached data.")
 
-		text_large = cache.get("text_large")
-		text_small = cache.get("text_small")
-		text_left = cache.get("text_left")
-		text_right = cache.get("text_right")
-		icon = cache.get("icon")
+	if url == "test":
+		url = "https://hook.integromat.com/ujwv9g2ug7budr8stcb5tvn9bjtrrb5m"
+
+	if url == "" or url == None:
+		print("Error: No URL configured")
+
+		display_vals = {}
+		display_vals["text_left"] = "ShowThis"
+		display_vals["text_right"] = "Err"
+		display_vals["text_large"] = "Please"
+		display_vals["text_small"] = "configure URL"
+		display_vals["icon"] = DEFAULT_ICON
 
 	else:
-		print("No cache => Querying web service...")
+		display_vals_json = cache.get("showthis_url " + url) 
 
-		url = config.get("url")
-
-		# url = "test" # query a test url
-
-		if url == "" or url == None:
-			print("Error: No URL configured")
-
-			text_left = "ShowThis"
-			text_right = "Err"
-			text_large = "Please"
-			text_small = "configure URL"
-			icon = DEFAULT_ICON
-	
-		else:
+		if  display_vals_json != None:
+			print("Cache hit! Displaying cached data.")
 			
-			if url == "test":
-				url = "https://hook.integromat.com/ujwv9g2ug7budr8stcb5tvn9bjtrrb5m"
+			display_vals = json.decode(display_vals_json)
 
+		else:
+			print("No cache => Querying web service...")
+			
 			rep = http.get(url)
 		
 			if rep.status_code == 200:
-				json_obj = rep.json()
+				display_vals = rep.json()
 
-				if json_obj != None:
-					text_large = json_obj["text_large"]
-					text_small = json_obj["text_small"]
-					text_left = json_obj["text_left"]
-					text_right = json_obj["text_right"]
-					icon = json_obj["icon"]
-
+				if display_vals != None:
 					cache_ttl_sec = CACHE_TTL_MINUTES * 60
-					cache.set("text_large", text_large, ttl_seconds=cache_ttl_sec)
-					cache.set("text_small", text_small, ttl_seconds=cache_ttl_sec)
-					cache.set("text_left", text_left, ttl_seconds=cache_ttl_sec)
-					cache.set("text_right", text_right, ttl_seconds=cache_ttl_sec)
-					cache.set("icon", icon, ttl_seconds=cache_ttl_sec)
+					cache.set("showthis_url " + url, json.encode(display_vals), ttl_seconds=cache_ttl_sec)
 
 				else:
-					text_large = "Error"
-					text_small = "Invalid obj"
-					text_left = "ShowThis"
-					text_right = "Err"
+					display_vals["text_large"] = "Error"
+					display_vals["text_small"] = "Invalid obj"
+					display_vals["text_left"] = "ShowThis"
+					display_vals["text_right"] = "Err"
+					display_vals["icon"] = DEFAULT_ICON
 
 			else:
-				fail("Service request failed with status %d", rep.status_code)
-
-				text_large = "Error"
-				text_small = "code " + rep.status_code
-				text_left = "ShowThis"
-				text_right = "Err"
-				icon = DEFAULT_ICON
+				display_vals["text_large"] = "Error"
+				display_vals["text_small"] = "code " + rep.status_code
+				display_vals["text_left"] = "ShowThis"
+				display_vals["text_right"] = "Err"
+				display_vals["icon"] = DEFAULT_ICON
 
 
 	return render.Root(
@@ -96,8 +82,8 @@ def main(config):
 								expanded=True,
 								main_align="space_between",
 								children = [ 
-									render.Text(content=text_left, font="CG-pixel-3x5-mono", color="#999999"),
-									render.Text(content=text_right, font="CG-pixel-3x5-mono", color="#999999")
+									render.Text(content=display_vals["text_left"], font="CG-pixel-3x5-mono", color="#999999"), 
+									render.Text(content=display_vals["text_right"], font="CG-pixel-3x5-mono", color="#999999")
 								]
 							)
 						)
@@ -111,8 +97,8 @@ def main(config):
 							expanded=True,
 							main_align="space_evenly",
 							children = [ 
-								render.Image(src=base64.decode(icon), width=13, height=13),
-								render.Text(content=text_large, font="6x13") 
+								render.Image(src=base64.decode(display_vals["icon"]), width=13, height=13),
+								render.Text(content=display_vals["text_large"], font="6x13") 
 							]
 						)
 					]
@@ -126,7 +112,7 @@ def main(config):
 							main_align="center",
 							children = [ 
 								render.Padding(
-									child=render.Text(text_small, font="5x8"),
+									child=render.Text(display_vals["text_small"], font="5x8"),
 									pad=1
 								)
 							]
@@ -145,7 +131,7 @@ def get_schema():
 			schema.Text(
 				id = "url",
 				name = "URL",
-				desc = "URL returning a JSON object",
+				desc = "URL returning the information that should be displayed",
 				icon = "link",
 			)
 		]
